@@ -5,10 +5,32 @@ const createError = require('http-errors');
 class UserService {
     saltRounds = 10;
 
-    async register(email, password) {
+    async login(email, password) {
+        const user = await User.findOne({
+            where: {email}
+        })
 
+        if (!user) {
+            throw new createError.Unauthorized('email not found')
+        }
+        
+        if (!user.verified) {
+            throw new createError.Unauthorized('user not verified')
+        }
+
+        const match = await this.comparePasswords(password, user.password);
+        
+        if (!match) { 
+            throw new createError.Unauthorized('wrong pass')
+        } 
+        
+        return true;
+    }
+
+    async register(email, password) {
         const foundUser = await User.findOne({
             where: {email}, 
+
         })
 
         if (foundUser) {
@@ -28,8 +50,8 @@ class UserService {
         return bcrypt.hash(password, salt);
     }
 
-    comparsePasswords(password, hashedPassword) {
-
+    comparePasswords(password, hashedPassword) {
+        return bcrypt.compare(password, hashedPassword);
     }
 }
 

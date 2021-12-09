@@ -16,11 +16,12 @@ app.use((req, res, next) => {
   next()
 });
 
-app.use('/users', usersController);
+app.use('/user', usersController);
 
 app.use((req, res, next) => {
   next(createError(404));
 });
+
 
 app.use(globalErrorHandler);
 
