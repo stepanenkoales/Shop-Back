@@ -1,28 +1,27 @@
-const pino = require('pino')
+const pino = require("pino");
 const pinoLogger = pino({
   transport: {
-    target: 'pino-pretty',
+    target: "pino-pretty",
     options: {
-      colorize: true
-    }
-  }
-})
+      colorize: true,
+    },
+  },
+});
 
 class Logger {
-    constructor (pinoLogger) {
-        this.logger = pinoLogger;
-    }
+  constructor(pinoLogger) {
+    this.logger = pinoLogger;
+  }
 
-    info(message) {
-        this.logger.info(message);
-    }
-    warn(message) {
-        this.logger.warn(message);
-    }
-    error(message) {
-        this.logger.error(message);
-    }
-
+  info(message) {
+    this.logger.info(message);
+  }
+  warn(message) {
+    this.logger.warn(message);
+  }
+  error(message) {
+    this.logger.error(message);
+  }
 }
 
 const logger = new Logger(pinoLogger);

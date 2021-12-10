@@ -1,7 +1,7 @@
-const sequelize = require('../');
+const sequelize = require("../");
 
-const User = require('./user')(sequelize)
+const User = require("./user")(sequelize);
 
 module.exports = {
-    User,
-}
+  User,
+};
