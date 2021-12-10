@@ -11,9 +11,9 @@ class JWTService {
       return jwt.verify(token, secret);
     }
     catch (err) {
-            switch (err.message) { 
+      switch (err.message) { 
         case 'invalid token': {
-          throw new createError.Unauthorized("invalid token")
+          throw new createError.Unauthorized("invalid token");
         }
         case 'jwt expired': {
           throw new createError.Unauthorized("token expired")

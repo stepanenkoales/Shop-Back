@@ -1,6 +1,5 @@
 const config = require('../config');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
-const { send } = require('express/lib/response');
 
 SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = config.apiKey;
 
@@ -12,7 +11,5 @@ module.exports =  (userName, email) => {
           to: [{'name': userName, 'email': email}],
           htmlContent: '<html><body><h1>This is a transactional email </h1></body></html>',      
         }
-    )
-    
-    
+    )   
 }
