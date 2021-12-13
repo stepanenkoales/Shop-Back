@@ -1,15 +1,31 @@
 const config = require('../config');
-const SibApiV3Sdk = require('sib-api-v3-sdk');
+const nodemailer = require('nodemailer');
+const handlebars = require("handlebars");
+const path = require("path")
+const fs = require("fs")
+const emailTemplateSource = fs.readFileSync(path.join(__dirname, "../templates/template.hbs"), "utf8")
+const template = handlebars.compile(emailTemplateSource)
+const url = 'http://localhost:3000/user/verify/';
 
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = config.apiKey;
 
-module.exports =  (userName, email) => {
-   return new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
-        {
-          subject:'Please verify your acccount',
-          sender : {'email':'stepanenkoales@gmail.com', 'name':'your app'},
-          to: [{'name': userName, 'email': email}],
-          htmlContent: '<html><body><h1>This is a transactional email </h1></body></html>',      
-        }
-    )   
-}
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'alstsepanenka@gmail.com',
+    pass: config.password
+  }
+});
+
+module.exports = async (email, token) => {
+  const htmlToSend = template({link: url+token})
+  const response = await transporter.sendMail({
+    from: 'My project',
+    to: email,
+    subject: 'transactional email',
+    html: htmlToSend
+  })
+  
+  return response;
+} 
+
+

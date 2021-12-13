@@ -10,6 +10,9 @@ const config = {
   refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
 
   apiKey: process.env.API_KEY,
+
+  password: process.env.PASSWORD,
+  
 };
 
 module.exports = config;

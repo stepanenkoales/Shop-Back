@@ -14,6 +14,19 @@ router.get(
   })
 );
 
+router.get(
+  '/verify/:token',
+  handleRouteErrors(async (req, res) => {
+    
+    const result = await userService.verify(req.params.token)
+    // console.log(result);
+    res.json('verification complete'); 
+
+  })
+
+);
+
+
 router.post(
   '/login',
   handleRouteErrors(async (req, res) => {

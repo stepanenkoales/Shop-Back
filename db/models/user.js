@@ -17,10 +17,6 @@ module.exports = (sequelize) => {
 
     verified: DataTypes.BOOLEAN,
 
-    /*
-         
-
-        */
   });
 
   return User;

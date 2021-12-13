@@ -31,6 +31,7 @@ class UserService {
     const refreshToken = jwtService.encode({id: user.id}, config.refreshTokenSecret, config.refreshTokenExpIn);
 
     return {accessToken, refreshToken};
+    
   }
 
 
@@ -49,17 +50,30 @@ class UserService {
       password: hashedPassword,
       verified: false,
     });
-    // delete user.password;
+
+    const token = jwtService.encode({id: user.id}, config.accessTokenSecret, config.accessTokenExpIn);
+
     try {
-      await sendMail('', email);
+      await sendMail(email, token);
 
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
     user.password = undefined;
     
     return user;
   }
+
+
+  async verify (token) {
+    const payload = jwtService.decode(token, config.accessTokenSecret)
+    await User.update({ verified: true }, {
+      where: {
+        id: payload.id
+      }
+    });
+  }
+
 
   async hashPassword(password) {
     const salt = await bcrypt.genSalt(this.saltRounds);
