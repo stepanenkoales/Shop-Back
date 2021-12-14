@@ -10,28 +10,21 @@ router.get(
   handleRouteErrors(async (req, res) => {
     res.json({...req.user.dataValues,
       password: undefined }); 
-
   })
 );
 
 router.get(
   '/verify/:token',
   handleRouteErrors(async (req, res) => {
-    
     const result = await userService.verify(req.params.token)
-    // console.log(result);
     res.json('verification complete'); 
-
   })
-
 );
-
 
 router.post(
   '/login',
   handleRouteErrors(async (req, res) => {
     const result = await userService.login(req.body.email, req.body.password);
-
     res.json(result);
   })
 );
@@ -40,10 +33,8 @@ router.post(
   '/',
   handleRouteErrors(async (req, res) => {
     const user = await userService.register(req.body.email, req.body.password);
-
     res.send(user);
   })
 );
-
 
 module.exports = router;

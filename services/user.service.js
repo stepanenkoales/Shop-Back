@@ -65,9 +65,9 @@ class UserService {
   }
 
 
-  async verify (token) {
+  verify (token) {
     const payload = jwtService.decode(token, config.accessTokenSecret)
-    await User.update({ verified: true }, {
+    User.update({ verified: true }, {
       where: {
         id: payload.id
       }
@@ -77,7 +77,6 @@ class UserService {
 
   async hashPassword(password) {
     const salt = await bcrypt.genSalt(this.saltRounds);
-
     return bcrypt.hash(password, salt);
   }
 
