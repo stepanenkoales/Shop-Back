@@ -12,6 +12,8 @@ const config = {
   apiKey: process.env.API_KEY,
 
   password: process.env.PASSWORD,
+  baseUrl: process.env.BASE_URL,
+
   
 };
 

@@ -4,6 +4,7 @@ const pinoLogger = pino({
     target: "pino-pretty",
     options: {
       colorize: true,
+    
     },
   },
 });

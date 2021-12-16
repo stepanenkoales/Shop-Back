@@ -1,10 +1,13 @@
 const express = require("express");
+var cors = require('cors')
 const app = express();
 const createError = require("http-errors");
 const globalErrorHandler = require("./utils/error.handler");
 const logger = require("./utils/logger");
 const usersController = require("./controllers/users");
 require("./db");
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

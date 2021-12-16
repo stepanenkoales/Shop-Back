@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const userService = require("../services/user.service");
-const handleRouteErrors = require("../utils/handleRouteErrors");
-const jwtMiddleware = require('../utils/jwt.middleware')
+const userService = require('../services/user.service');
+const handleRouteErrors = require('../utils/handleRouteErrors');
+const jwtMiddleware = require('../utils/jwt.middleware');
+const config = require('../config/index');
 
 router.get(
   '/',
@@ -17,9 +18,10 @@ router.get(
   '/verify/:token',
   handleRouteErrors(async (req, res) => {
     const result = await userService.verify(req.params.token)
-    res.json('verification complete'); 
+    res.redirect(config.baseUrl + '/login'); 
   })
 );
+
 
 router.post(
   '/login',
@@ -33,7 +35,7 @@ router.post(
   '/',
   handleRouteErrors(async (req, res) => {
     const user = await userService.register(req.body.email, req.body.password);
-    res.send(user);
+    res.send(console.log(user));
   })
 );
 
