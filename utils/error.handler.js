@@ -1,10 +1,10 @@
-const logger = require("./logger");
+const logger = require('./logger')
 
 module.exports = (err, req, res, next) => {
   if (!err.statusCode || !err.message) {
-    Error.captureStackTrace(err);
-    logger.error(err);
+    Error.captureStackTrace(err)
+    logger.error(err)
   }
 
-  res.status(err.statusCode).json({ message: err.message });
-};
+  res.status(err.statusCode).json({ message: err.message })
+}
