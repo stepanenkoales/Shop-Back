@@ -3,7 +3,7 @@ const router = express.Router()
 const userService = require('../services/user.service')
 const handleRouteErrors = require('../utils/handleRouteErrors')
 const jwtMiddleware = require('../utils/jwt.middleware')
-const config = require('../config/index')
+const config = require('../config')
 
 router.get(
   '/',

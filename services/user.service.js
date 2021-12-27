@@ -38,6 +38,7 @@ class UserService {
       config.refreshTokenSecret,
       config.refreshTokenExpIn
     )
+
     return { accessToken, refreshToken }
   }
 
@@ -63,6 +64,7 @@ class UserService {
     )
     await templateEmailService.sendVerificationEmail(email, token)
     user.password = undefined
+
     return user
   }
 
@@ -96,6 +98,7 @@ class UserService {
       config.refreshTokenSecret,
       config.refreshTokenExpIn
     )
+
     return { accessToken, refreshToken }
   }
 
@@ -120,11 +123,13 @@ class UserService {
     user.update({ password: hashedPassword })
     await templateEmailService.sendResetPassword(email, resetPassword)
     user.password = undefined
+
     return user
   }
 
   async hashPassword(password) {
     const salt = await bcrypt.genSalt(this.saltRounds)
+
     return bcrypt.hash(password, salt)
   }
 

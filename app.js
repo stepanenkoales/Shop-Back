@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.use('/user', usersController)
 
 app.use((req, res, next) => {
-  next(createError(404))
+  next(new CreateError.NotFound())
 })
 
 app.use(globalErrorHandler)
