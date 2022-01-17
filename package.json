@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -r dotenv/config app.js | pino-pretty"
+    "start": "nodemon -r dotenv/config app.js | pino-pretty",
+    "precommit": "lint-staged",
+    "eslint": "node_modules/.bin/eslint src/"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "~4.16.1",
     "express-pino-logger": "^6.0.0",
     "handlebars": "^4.7.7",
@@ -17,13 +20,25 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "pino": "^6.11.3",
+    "secure-random-password": "^0.2.3",
     "sequelize": "^6.12.0-beta.1",
     "sequelize-cli": "^6.3.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.3",
     "pino-pretty": "^5.0.2",
-    "prettier": "2.5.1"
+    "prettier": "^2.5.1"
+  },
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "node_modules/.bin/eslint",
+      "prettier --write",
+      "git add"
+    ]
   }
 }

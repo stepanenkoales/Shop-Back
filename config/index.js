@@ -12,7 +12,8 @@ const config = {
   apiKey: process.env.API_KEY,
 
   password: process.env.PASSWORD,
-  
-};
+  baseUrl: process.env.BASE_URL,
+  backBaseUrl: process.env.BACK_BASE_URL,
+}
 
-module.exports = config;
+module.exports = config
