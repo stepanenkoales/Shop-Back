@@ -16,7 +16,7 @@ router.get(
 router.get(
   '/verify/:token',
   handleRouteErrors(async (req, res) => {
-    const result = await userService.verify(req.params.token)
+    await userService.verify(req.params.token)
     res.redirect(config.baseUrl + '/login')
   })
 )
@@ -33,7 +33,7 @@ router.post(
   '/',
   handleRouteErrors(async (req, res) => {
     const user = await userService.register(req.body.email, req.body.password)
-    res.send(user)
+    res.json(user)
   })
 )
 

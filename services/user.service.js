@@ -38,8 +38,9 @@ class UserService {
       config.refreshTokenSecret,
       config.refreshTokenExpIn
     )
+    user.password = undefined
 
-    return { accessToken, refreshToken }
+    return { user, accessToken, refreshToken }
   }
 
   async register(email, password) {
@@ -68,7 +69,7 @@ class UserService {
     return user
   }
 
-  verify(token) {
+  async verify(token) {
     const payload = jwtService.decode(token, config.accessTokenSecret)
     User.update(
       { verified: true },
@@ -119,6 +120,7 @@ class UserService {
       length: 9,
       characters: [password.lower, password.upper, password.digits],
     })
+
     const hashedPassword = await this.hashPassword(resetPassword)
     user.update({ password: hashedPassword })
     await templateEmailService.sendResetPassword(email, resetPassword)

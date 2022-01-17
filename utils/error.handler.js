@@ -6,5 +6,5 @@ module.exports = (err, req, res, next) => {
     logger.error(err)
   }
 
-  res.status(err.statusCode).json({ message: err.message })
+  res.status(err.statusCode || 500).json(err)
 }

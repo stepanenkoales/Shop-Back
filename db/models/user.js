@@ -1,4 +1,4 @@
-const { DataTypes, Model, UUIDV4 } = require('sequelize')
+const { DataTypes, UUIDV4 } = require('sequelize')
 
 module.exports = (sequelize) => {
   const User = sequelize.define('user', {
@@ -16,6 +16,11 @@ module.exports = (sequelize) => {
     password: DataTypes.TEXT,
 
     verified: DataTypes.BOOLEAN,
+
+    role: {
+      type: DataTypes.TEXT,
+      defaultValue: 'user',
+    },
   })
 
   return User

@@ -15,7 +15,7 @@ module.exports = handleRouteErrors(async (req, res, next) => {
   if (!user.verified) {
     throw new createError.Unauthorized('user not verified')
   }
-  req.user = user
 
+  req.user = user
   next()
 })
