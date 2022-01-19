@@ -4,19 +4,9 @@ const config = require('../config')
 const createError = require('http-errors')
 
 class ItemService {
-  async findItem(value) {
-    const { currentPage, pageSize, categoryId, name } = value
-
-    const getPagination = (currentPage, pageSize) => {
-      const limit = pageSize ? pageSize : 5
-      const offset = currentPage ? (currentPage - 1) * limit : 0
-      return { limit, offset }
-    }
-
-    const { limit, offset } = getPagination(currentPage, pageSize)
-
+  getPaginationProps({ limit, offset, categoryId, name }) {
     if (categoryId && name) {
-      const { count, rows } = await Item.findAndCountAll({
+      return {
         where: {
           [Op.and]: [
             {
@@ -29,23 +19,60 @@ class ItemService {
         },
         offset,
         limit,
-      })
-      return { rows, count }
+      }
+    }
+
+    if (name) {
+      return {
+        where: {
+          [Op.or]: [
+            {
+              name: {
+                [Op.like]: `%${name}%`,
+              },
+            },
+            {
+              description: {
+                [Op.like]: `%${name}%`,
+              },
+            },
+          ],
+        },
+        offset,
+        limit,
+      }
     }
 
     if (categoryId) {
-      const { count, rows } = await Item.findAndCountAll({
+      return {
         where: { categoryId },
         offset,
         limit,
-      })
-      return { rows, count }
+      }
     }
   }
 
+  async findItem(value) {
+    const { currentPage, pageSize, categoryId, name } = value
+    const getPagination = (currentPage, pageSize) => {
+      const limit = pageSize ? pageSize : 5
+      const offset = currentPage ? (currentPage - 1) * limit : 0
+      return { limit, offset }
+    }
+    const { limit, offset } = getPagination(currentPage, pageSize)
+    const { rows, count } = await Item.findAndCountAll(
+      this.getPaginationProps({ categoryId, name, limit, offset })
+    )
+    return { rows, count }
+  }
+
   async addItem(items) {
-    const response = await Item.bulkCreate(items, { validate: true })
-    return response
+    try {
+      const response = await Item.bulkCreate(items, { validate: true })
+      return response
+    } catch (err) {
+      throw new createError.Conflict(err?.errors[0])
+    }
   }
 
   async updateItem(id, price, description) {

@@ -6,6 +6,11 @@ const handleRouteErrors = require('./handleRouteErrors')
 
 module.exports = handleRouteErrors(async (req, res, next) => {
   const token = req.headers.authorization
+
+  if (!token) {
+    throw new createError.Unauthorized('token undefined')
+  }
+
   const payload = jwtService.decode(
     token.split(' ')[1],
     config.accessTokenSecret
@@ -13,7 +18,7 @@ module.exports = handleRouteErrors(async (req, res, next) => {
   const user = await User.findByPk(payload.id)
 
   if (!user.verified) {
-    throw new createError.Unauthorized('user not verified')
+    throw new createError.Forbidden('User not verified')
   }
 
   req.user = user

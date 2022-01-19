@@ -2,6 +2,7 @@ const { Op } = require('sequelize')
 const { Item, Category } = require('../db/models')
 const config = require('../config')
 const createError = require('http-errors')
+const { create } = require('handlebars')
 
 class CategoryService {
   async findCategory(value) {
@@ -18,13 +19,16 @@ class CategoryService {
       })
       return categories
     }
-
     return Category.findAll()
   }
 
   async addCategory(categories) {
-    const response = await Category.bulkCreate(categories, { validate: true })
-    return response
+    try {
+      const response = await Category.bulkCreate(categories, { validate: true })
+      return response
+    } catch (err) {
+      throw new createError.Conflict(err?.errors[0])
+    }
   }
 }
 
