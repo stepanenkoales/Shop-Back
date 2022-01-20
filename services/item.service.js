@@ -52,17 +52,19 @@ class ItemService {
     }
   }
 
-  async findItem(value) {
-    const { currentPage, pageSize, categoryId, name } = value
-    const getPagination = (currentPage, pageSize) => {
-      const limit = pageSize ? pageSize : 5
-      const offset = currentPage ? (currentPage - 1) * limit : 0
-      return { limit, offset }
-    }
-    const { limit, offset } = getPagination(currentPage, pageSize)
+  getPagination(currentPage, pageSize) {
+    const limit = pageSize ? pageSize : 5
+    const offset = currentPage ? (currentPage - 1) * limit : 0
+
+    return { limit, offset }
+  }
+
+  async findItem({ currentPage, pageSize, categoryId, name }) {
+    const { limit, offset } = this.getPagination(currentPage, pageSize)
     const { rows, count } = await Item.findAndCountAll(
       this.getPaginationProps({ categoryId, name, limit, offset })
     )
+
     return { rows, count }
   }
 
@@ -80,6 +82,7 @@ class ItemService {
       { price, description },
       { where: { id } }
     )
+
     return response
   }
 

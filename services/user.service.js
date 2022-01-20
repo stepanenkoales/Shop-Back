@@ -69,7 +69,7 @@ class UserService {
     return user
   }
 
-  async verify(token) {
+  verify(token) {
     const payload = jwtService.decode(token, config.accessTokenSecret)
     User.update(
       { verified: true },
