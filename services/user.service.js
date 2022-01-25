@@ -38,8 +38,9 @@ class UserService {
       config.refreshTokenSecret,
       config.refreshTokenExpIn
     )
+    user.password = undefined
 
-    return { accessToken, refreshToken }
+    return { user, accessToken, refreshToken }
   }
 
   async register(email, password) {
@@ -119,6 +120,7 @@ class UserService {
       length: 9,
       characters: [password.lower, password.upper, password.digits],
     })
+
     const hashedPassword = await this.hashPassword(resetPassword)
     user.update({ password: hashedPassword })
     await templateEmailService.sendResetPassword(email, resetPassword)

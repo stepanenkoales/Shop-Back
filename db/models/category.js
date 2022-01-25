@@ -1,27 +1,25 @@
 const { DataTypes, UUIDV4 } = require('sequelize')
 
 module.exports = (sequelize) => {
-  const User = sequelize.define('user', {
+  const Category = sequelize.define('category', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
       defaultValue: UUIDV4,
     },
-    email: {
+
+    category: {
       type: DataTypes.TEXT,
       unique: true,
+      allowNull: false,
     },
 
-    password: DataTypes.TEXT,
-
-    verified: DataTypes.BOOLEAN,
-
-    role: {
-      type: DataTypes.TEXT,
-      defaultValue: 'user',
+    parentId: {
+      type: DataTypes.UUID,
+      allowNull: true,
     },
   })
 
-  return User
+  return Category
 }

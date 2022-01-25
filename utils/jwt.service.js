@@ -15,7 +15,7 @@ class JWTService {
           throw new createError.Unauthorized('invalid token')
         }
         case 'jwt expired': {
-          throw new createError.Unauthorized('token expired')
+          throw new createError.Unauthorized('jwt expired')
         }
         default: {
           throw new createError.Unauthorized('token error')
