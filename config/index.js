@@ -14,6 +14,11 @@ const config = {
   password: process.env.PASSWORD,
   baseUrl: process.env.BASE_URL,
   backBaseUrl: process.env.BACK_BASE_URL,
+
+  cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
+  cloudinaryUrl: process.env.CLOUDINARY_URL,
 }
 
 module.exports = config

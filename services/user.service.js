@@ -38,9 +38,8 @@ class UserService {
       config.refreshTokenSecret,
       config.refreshTokenExpIn
     )
-    user.password = undefined
 
-    return { user, accessToken, refreshToken }
+    return { accessToken, refreshToken }
   }
 
   async register(email, password) {

@@ -4,17 +4,29 @@ const config = require('../config')
 const createError = require('http-errors')
 
 class ItemService {
-  getPaginationProps({ limit, offset, categoryId, name }) {
+  getPaginationProps({ limit, offset, categoryId, name, itemsId }) {
+    if (itemsId) {
+      return {
+        where: {
+          id: {
+            [Op.or]: itemsId,
+          },
+        },
+      }
+    }
+
     if (categoryId && name) {
       return {
         where: {
           [Op.and]: [
             {
               name: {
-                [Op.like]: `%${name}%`,
+                [Op.iLike]: `%${name}%`,
               },
             },
-            { categoryId },
+            {
+              categoryId,
+            },
           ],
         },
         offset,
@@ -28,12 +40,12 @@ class ItemService {
           [Op.or]: [
             {
               name: {
-                [Op.like]: `%${name}%`,
+                [Op.iLike]: `%${name}%`,
               },
             },
             {
               description: {
-                [Op.like]: `%${name}%`,
+                [Op.iLike]: `%${name}%`,
               },
             },
           ],
@@ -59,10 +71,10 @@ class ItemService {
     return { limit, offset }
   }
 
-  async findItem({ currentPage, pageSize, categoryId, name }) {
+  async findItem({ currentPage, pageSize, categoryId, name, itemsId }) {
     const { limit, offset } = this.getPagination(currentPage, pageSize)
     const { rows, count } = await Item.findAndCountAll(
-      this.getPaginationProps({ categoryId, name, limit, offset })
+      this.getPaginationProps({ categoryId, name, limit, offset, itemsId })
     )
 
     return { rows, count }

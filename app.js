@@ -7,6 +7,8 @@ const logger = require('./utils/logger')
 const usersController = require('./controllers/users')
 const categoriesController = require('./controllers/categories')
 const itemsController = require('./controllers/items')
+const ordersController = require('./controllers/orders')
+const cloudinaryController = require('./controllers/cloudinary')
 require('./db')
 
 app.use(cors())
@@ -24,6 +26,10 @@ app.use('/categories', categoriesController)
 app.use('/items', itemsController)
 
 app.use('/user', usersController)
+
+app.use('/order', ordersController)
+
+app.use('/cloudinary', cloudinaryController)
 
 app.use((req, res, next) => {
   next(new createError.NotFound())

@@ -1,37 +1,35 @@
 const { DataTypes, UUIDV4 } = require('sequelize')
 
-module.exports = (sequelize, Category) => {
-  const Item = sequelize.define('item', {
+module.exports = (sequelize, User) => {
+  const Order = sequelize.define('order', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
       defaultValue: UUIDV4,
     },
-
-    image: {
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    comments: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-
-    name: {
+    status: {
       type: DataTypes.TEXT,
-      unique: true,
+      defaultValue: 'pending',
     },
-
-    price: DataTypes.DECIMAL,
-
-    description: DataTypes.TEXT,
   })
 
-  Category.hasMany(Item)
+  User.hasMany(Order)
 
-  Item.belongsTo(Category, {
+  Order.belongsTo(User, {
     foreignKey: {
       allowNull: false,
-      name: 'categoryId',
+      name: 'userId',
     },
   })
 
-  return Item
+  return Order
 }

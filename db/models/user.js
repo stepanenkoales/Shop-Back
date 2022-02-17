@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: UUIDV4,
     },
+
     email: {
       type: DataTypes.TEXT,
       unique: true,
