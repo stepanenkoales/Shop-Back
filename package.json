@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon -r dotenv/config app.js | pino-pretty",
+    "start:prod": "node app.js",
     "precommit": "lint-staged",
     "eslint": "node_modules/.bin/eslint src/"
   },
