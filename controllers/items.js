@@ -8,8 +8,16 @@ const adminMiddleware = require('../utils/admin.middleware')
 router.get(
   '/',
   handleRouteErrors(async (req, res) => {
-    const result = await itemService.findItem(req.query)
-    res.json(result)
+    const response = await itemService.findItem(req.query)
+    res.json(response)
+  })
+)
+
+router.post(
+  '/id',
+  handleRouteErrors(async (req, res) => {
+    const response = await itemService.findItem(req.body)
+    res.json(response)
   })
 )
 

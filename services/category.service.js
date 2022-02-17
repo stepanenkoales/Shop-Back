@@ -1,8 +1,6 @@
 const { Op } = require('sequelize')
-const { Item, Category } = require('../db/models')
-const config = require('../config')
+const { Category } = require('../db/models')
 const createError = require('http-errors')
-const { create } = require('handlebars')
 
 class CategoryService {
   async findCategory(value) {
@@ -22,7 +20,7 @@ class CategoryService {
     return Category.findAll()
   }
 
-  async addCategory(categories) {
+  async addCategories(categories) {
     try {
       const response = await Category.bulkCreate(categories, { validate: true })
       return response
