@@ -1,17 +1,13 @@
 const { Op } = require('sequelize')
 const { Item } = require('../db/models')
-const config = require('../config')
+const { Category } = require('../db/models')
 const createError = require('http-errors')
 
 class ItemService {
-  getPaginationProps({ limit, offset, categoryId, name, itemsId }) {
+  async getPaginationProps({ limit, offset, categoryId, name, itemsId }) {
     if (itemsId) {
       return {
-        where: {
-          id: {
-            [Op.or]: itemsId,
-          },
-        },
+        where: { id: itemsId },
       }
     }
 
@@ -71,10 +67,35 @@ class ItemService {
     return { limit, offset }
   }
 
-  async findItem({ currentPage, pageSize, categoryId, name, itemsId }) {
+  async getCategoryId(parentId) {
+    const categories = await Category.findAll({
+      where: { parentId },
+    })
+    return Array.from(categories, (category) => category.id)
+  }
+
+  async findItem({
+    currentPage,
+    pageSize,
+    categoryId,
+    name,
+    itemsId,
+    parentId,
+  }) {
     const { limit, offset } = this.getPagination(currentPage, pageSize)
+
+    if (parentId) {
+      categoryId = await this.getCategoryId(parentId)
+    }
+
     const { rows, count } = await Item.findAndCountAll(
-      this.getPaginationProps({ categoryId, name, limit, offset, itemsId })
+      await this.getPaginationProps({
+        categoryId,
+        name,
+        limit,
+        offset,
+        itemsId,
+      })
     )
 
     return { rows, count }
