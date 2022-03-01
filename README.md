@@ -8,6 +8,7 @@ The server was deployed to Heroku.
 # Technologies: 
 
 Project (back-end) is created with: \
+
 Node.js \
 Express \
 PostgreSQL \
